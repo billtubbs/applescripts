@@ -1,8 +1,7 @@
 (* Applescript written by Bill Tubbs
 This script uses the built-in speech synthesiser on Mac OS X 
 to speak the current time in an approximate fashion. E.g.
-"It's half past eleven" 
-TODO: It says "It's just gone quarter to zero" at 11:51
+"It's half past eleven"
 *)
 
 set theVol to get volume settings
@@ -16,6 +15,10 @@ if readAloud then
 		set theHour to (theTimeinMinutes div 60) mod 12
 		set theNearestQuarter to (theMinutes + 7.5) div 15
 		set theMinutesPast to (theMinutes - 15 * theNearestQuarter)
+		
+		if theHour is 0 then
+			set theHour to 12
+		end if
 		
 		if theMinutesPast is greater than 2 then
 			set theApproximation to "just gone "
@@ -37,7 +40,7 @@ if readAloud then
 		
 		set theCompleteSentence to "It's " & theApproximation & theTime
 		--Use the following dialog to debug
-		--display dialog theHour & "h " & theMinutesPast & "m " & theNearestQuarter as string
+		display dialog theHour & "h " & theMinutesPast & "m " & theNearestQuarter as string
 		say theCompleteSentence
 		
 	on error the error_message number the error_number
